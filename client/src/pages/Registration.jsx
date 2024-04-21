@@ -7,6 +7,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  LinearProgress,
   MenuItem,
   OutlinedInput,
   Select,
@@ -15,11 +16,27 @@ import {
 } from "@mui/material";
 import { registrationValidationSchema } from "../validationSchema/registrationValidationSchema";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { $axios } from "../axios/axiosInstance";
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+  const { isPending, mutate } = useMutation({
+    mutationKey: ["Register-user"],
+    mutationFn: async (values) => {
+      return await $axios.post("/user/register", values);
+    },
+    onSuccess: (res) => {
+      console.log(res);
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.log(error.response.data.msg);
+    },
+  });
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -27,6 +44,7 @@ const Registration = () => {
   };
   return (
     <div>
+      {isPending && <LinearProgress />}
       <Formik
         initialValues={{
           firstName: "",
@@ -38,7 +56,7 @@ const Registration = () => {
         }}
         validationSchema={registrationValidationSchema}
         onSubmit={(values) => {
-          console.log(values);
+          mutate(values);
         }}
       >
         {({ touched, errors, getFieldProps, handleSubmit }) => {
@@ -132,7 +150,12 @@ const Registration = () => {
                 ) : null}
               </FormControl>
 
-              <Button variant="contained" color="secondary" type="submit">
+              <Button
+                variant="contained"
+                color="secondary"
+                type="submit"
+                disabled={isPending}
+              >
                 Register
               </Button>
               <Link to={"/login"}>Already registered? Login</Link>
