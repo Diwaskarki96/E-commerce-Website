@@ -1,19 +1,30 @@
 import { Formik } from "formik";
-import React from "react";
+import { useState } from "react";
 import {
   Button,
   FormControl,
   FormHelperText,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
 import { registrationValidationSchema } from "../validationSchema/registrationValidationSchema";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const Registration = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <div>
       <Formik
@@ -70,11 +81,28 @@ const Registration = () => {
                   <FormHelperText error>{errors.email}</FormHelperText>
                 ) : null}
               </FormControl>
-              <FormControl>
-                <TextField
-                  label="Password"
+
+              <FormControl variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password" required>
+                  Password
+                </InputLabel>
+                <OutlinedInput
                   {...getFieldProps("password")}
-                  required
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end" required>
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
                 />
                 {touched.password && errors.password ? (
                   <FormHelperText error>{errors.password}</FormHelperText>
