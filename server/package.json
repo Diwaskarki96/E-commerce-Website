@@ -18,6 +18,7 @@
     "yup": "^1.4.0"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.2"
   }
 }
