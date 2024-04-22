@@ -12,7 +12,7 @@ router.post("/register", async (req, res, next) => {
     });
     if (existedUser) throw new Error("User existed");
     const user = await userController.register(validateData);
-    res.send({ msg: "success", data: user });
+    res.send({ msg: "success", userDetails: user });
   } catch (e) {
     next(e);
   }
@@ -30,7 +30,7 @@ router.post("/login", async (req, res, next) => {
         expiresIn: process.env.JWT_DURATION,
       }
     );
-    res.send({ msg: "success", data: user, token });
+    res.send({ msg: "success", userDetails: user, token: token });
   } catch (e) {
     next(e);
   }
