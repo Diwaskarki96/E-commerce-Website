@@ -21,7 +21,7 @@ const App = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            navigate("/register");
+            navigate("/login");
           }}
         >
           Login
