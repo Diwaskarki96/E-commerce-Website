@@ -10,9 +10,7 @@ import { mainRoutes } from "./routes/mainRoutes.jsx";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([...guestRoutes, ...mainRoutes]);
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />
+  </QueryClientProvider>
 );
