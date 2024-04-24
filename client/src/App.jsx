@@ -9,6 +9,7 @@ const App = () => {
       <h3>Welcome to my Page</h3>
       <div>
         <Button
+          sx={{ mr: "1rem" }}
           variant="contained"
           color="primary"
           onClick={() => {
@@ -25,6 +26,17 @@ const App = () => {
           }}
         >
           Login
+        </Button>
+        <br />
+        <Button
+          sx={{ mt: "1rem" }}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
+          Home
         </Button>
       </div>
     </div>
