@@ -127,7 +127,7 @@ router.get(
 );
 
 //list all product by seller
-router.get(
+router.post(
   "/productList/seller",
   isSeller,
   validateReqBody(paginationValidation),
@@ -142,7 +142,6 @@ router.get(
         {
           $project: {
             sellerId: 0,
-            _id: 0,
             createdAt: 0,
             updatedAt: 0,
             __v: 0,
