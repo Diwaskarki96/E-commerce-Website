@@ -42,7 +42,7 @@ const productValidation = YUP.object({
     .required("Description is required")
     .min(5, "Description must be atleast 5 characters")
     .max(1000, "Description must be under 1000 characters"),
-  image: YUP.string(),
+  image: YUP.string().nullable(),
 });
 
 const paginationValidation = YUP.object({
