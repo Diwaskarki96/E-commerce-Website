@@ -6,16 +6,22 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Chip, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { fallBackImage } from "../constants/general.constants";
 
-const ProductCard = ({ name, price, description }) => {
+const ProductCard = ({ name, price, description, _id, image }) => {
+  const navigate = useNavigate();
   return (
     <Card
       sx={{ maxWidth: "$00px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
     >
       <CardMedia
-        sx={{ height: 300, width: "100%" }}
-        image="https://www.sceptre.com/image/cache/data/product_gallery/1423-X437BV-FSRD/1-750x522.jpg"
+        sx={{ height: 300, width: "100%", cursor: "pointer" }}
+        image={image || fallBackImage}
         title="Samsung"
+        onClick={() => {
+          navigate(`/product-detail/${_id}`);
+        }}
       />
       <CardContent>
         <Stack direction="row" justifyContent="space-between">
@@ -33,7 +39,14 @@ const ProductCard = ({ name, price, description }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="secondary" fullWidth>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          onClick={() => {
+            navigate(`/product-detail/${_id}`);
+          }}
+        >
           Explore
         </Button>
       </CardActions>
