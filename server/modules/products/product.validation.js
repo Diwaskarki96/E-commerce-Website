@@ -19,7 +19,7 @@ const productValidation = YUP.object({
     .required("Category is required")
     .oneOf([
       "grocery",
-      "eletronic",
+      "electronics",
       "electrical",
       "kitchen",
       "kids",

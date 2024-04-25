@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const $axios = axios.create({
-  baseURL: "http://localhost:5555",
+  baseURL: "http://localhost:8000",
   timeout: 5000,
 });
 

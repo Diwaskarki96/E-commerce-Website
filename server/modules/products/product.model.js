@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema(
       tim: true,
       enum: [
         "grocery",
-        "eletronic",
+        "electronics",
         "electrical",
         "kitchen",
         "kids",

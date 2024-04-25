@@ -4,6 +4,7 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
 import { $axios } from "../axios/axiosInstance";
+import { fallBackImage } from "../constants/general.constants";
 
 const SellerProductList = () => {
   const navigate = useNavigate();
@@ -44,9 +45,13 @@ const SellerProductList = () => {
           gap: "3rem",
         }}
       >
-        {productList.map((item) => {
-          return <ProductCard key={item._id} {...item} />;
-        })}
+        {productList && productList.length > 0 ? (
+          productList.map((item) => {
+            return <ProductCard key={item._id} {...item} />;
+          })
+        ) : (
+          <img src={fallBackImage} alt="" />
+        )}
       </Box>
     </>
   );
