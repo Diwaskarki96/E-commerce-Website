@@ -1,5 +1,6 @@
 import App from "../App";
 import MinimunLayout from "../layout/MinimunLayout";
+import AddProduct from "../pages/AddProduct";
 import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 
