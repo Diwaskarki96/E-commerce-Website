@@ -10,10 +10,10 @@ import { Chip, Stack } from "@mui/material";
 const ProductCard = ({ name, price, description }) => {
   return (
     <Card
-      sx={{ maxWidth: "30%", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+      sx={{ maxWidth: "$00px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
     >
       <CardMedia
-        sx={{ height: 300 }}
+        sx={{ height: 300, width: "100%" }}
         image="https://www.sceptre.com/image/cache/data/product_gallery/1423-X437BV-FSRD/1-750x522.jpg"
         title="Samsung"
       />
