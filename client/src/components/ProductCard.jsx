@@ -13,10 +13,18 @@ const ProductCard = ({ name, price, description, _id, image }) => {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ maxWidth: "$00px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+      sx={{
+        width: {
+          xs: "100%",
+          sm: "45%",
+          md: "30%",
+        },
+        boxShadow:
+          " rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+      }}
     >
       <CardMedia
-        sx={{ height: 300, width: "100%", cursor: "pointer" }}
+        sx={{ height: "400px", width: "100%", cursor: "pointer" }}
         image={image || fallBackImage}
         title="Samsung"
         onClick={() => {
@@ -34,8 +42,12 @@ const ProductCard = ({ name, price, description, _id, image }) => {
 
         <Typography>Price:{price}</Typography>
 
-        <Typography variant="body2" color="text.secondary">
-          {description}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ textAlign: "justify" }}
+        >
+          {description}...
         </Typography>
       </CardContent>
       <CardActions>

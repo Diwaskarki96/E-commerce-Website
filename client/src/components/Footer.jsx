@@ -5,15 +5,16 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        background: "#86469C",
         height: "70px",
+        width: "100vw",
+        background: "#9D76C1",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
+        mt: "5rem",
       }}
     >
-      <Typography variant="h5" sx={{ color: "#fff" }}>
+      <Typography variant="h6" sx={{ color: "#fff" }}>
         © 2020 Copyright: Nepal Electronic Mart
       </Typography>
     </Box>

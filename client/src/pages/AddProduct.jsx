@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
@@ -14,7 +15,6 @@ import {
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { productCategories } from "../constants/general.constants";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
@@ -22,7 +22,6 @@ import { $axios } from "../axios/axiosInstance";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-
   const { isPending, mutate } = useMutation({
     mutationKey: ["add-product"],
     mutationFn: async (values) => {
