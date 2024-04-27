@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
@@ -26,7 +25,6 @@ const ProductDetail = () => {
     },
   });
   const productDetail = data?.data?.data;
-  console.log(productDetail);
   if (isPending) {
     return <CircularProgress />;
   }
@@ -99,14 +97,7 @@ const ProductDetail = () => {
           >
             Edit
           </Button>
-          <Button
-            variant="outlined"
-            color="error"
-            startIcon={<DeleteIcon />}
-            fullWidth
-          >
-            Delete
-          </Button>
+
           <DeleteProductDialog />
         </Stack>
       </Box>
