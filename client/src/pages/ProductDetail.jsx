@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import DeleteProductDialog from "../components/DeleteProductDialog";
@@ -16,8 +16,11 @@ import DeleteProductDialog from "../components/DeleteProductDialog";
 // Box => div
 // Stack => div which has display flex and direction column
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const productId = params.id;
+  const userRole = localStorage.getItem("role");
+
   const { isPending, data } = useQuery({
     queryKey: ["get-product-detail"],
     queryFn: async () => {
@@ -88,18 +91,23 @@ const ProductDetail = () => {
           />
         </Stack>
 
-        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
-          <Button
-            variant="contained"
-            color="success"
-            startIcon={<EditIcon />}
-            fullWidth
-          >
-            Edit
-          </Button>
+        {userRole === "seller" && (
+          <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<EditIcon />}
+              onClick={() => {
+                navigate(`/product-edit/${productId}`);
+              }}
+              fullWidth
+            >
+              Edit
+            </Button>
 
-          <DeleteProductDialog />
-        </Stack>
+            <DeleteProductDialog />
+          </Stack>
+        )}
       </Box>
     </Box>
   );
