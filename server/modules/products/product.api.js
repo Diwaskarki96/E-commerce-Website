@@ -94,7 +94,7 @@ router.put("/edit/:id", isSeller, isValidMongoId, async (req, res, next) => {
 });
 
 //list all product by buyer
-router.get(
+router.post(
   "/productList/buyer",
   isBuyer,
   validateReqBody(paginationValidation),
