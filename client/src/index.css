@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -46,4 +46,11 @@ h1 {
   button {
     background-color: #f9f9f9;
   }
+} */
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  align-items: center;
+  min-height: 100vh;
 }

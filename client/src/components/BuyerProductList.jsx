@@ -1,6 +1,6 @@
 import React from "react";
 import ProductCard from "./ProductCard";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
@@ -18,7 +18,9 @@ const BuyerProductList = () => {
   //console.log(data);
   const productDetail = data?.data?.data;
   console.log(productDetail);
-
+  if (isPending) {
+    return <CircularProgress />;
+  }
   return (
     <Box
       sx={{

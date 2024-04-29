@@ -114,6 +114,7 @@ router.post(
             price: 1,
             category: 1,
             freeShipping: 1,
+            description: { $substr: ["$description", 0, 200] },
             availableQuantity: 1,
             image: 1,
           },
