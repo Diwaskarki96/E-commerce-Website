@@ -3,15 +3,18 @@ import {
   Button,
   Chip,
   CircularProgress,
+  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import DeleteProductDialog from "../components/DeleteProductDialog";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 
 // Box => div
 // Stack => div which has display flex and direction column
@@ -20,11 +23,24 @@ const ProductDetail = () => {
   const params = useParams();
   const productId = params.id;
   const userRole = localStorage.getItem("role");
+  const [productCount, setproductCount] = useState(1);
 
   const { isPending, data } = useQuery({
     queryKey: ["get-product-detail"],
     queryFn: async () => {
       return await $axios.get(`/product/details/${productId}`);
+    },
+  });
+  const { isPending: addToCartPending, mutate } = useMutation({
+    mutationKey: ["add-to-cart"],
+    mutationFn: async () => {
+      return await $axios.post("/cart/add", {
+        productId: productId,
+        orderQuantity: productCount,
+      });
+    },
+    onSuccess: () => {
+      navigate("/cart");
     },
   });
   const productDetail = data?.data?.data;
@@ -107,6 +123,38 @@ const ProductDetail = () => {
 
             <DeleteProductDialog />
           </Stack>
+        )}
+        {userRole === "buyer" && (
+          <>
+            <Stack flexDirection={"row"}>
+              <IconButton
+                onClick={() => {
+                  setproductCount((prevCount) => prevCount - 1);
+                }}
+                disabled={productCount === 1}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <Typography variant="h4">{productCount}</Typography>
+              <IconButton
+                onClick={() => {
+                  setproductCount((prevCount) => prevCount + 1);
+                }}
+                disabled={productCount === productDetail?.availableQuantity}
+              >
+                <AddIcon />
+              </IconButton>
+            </Stack>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={() => {
+                mutate();
+              }}
+            >
+              Add to cart
+            </Button>
+          </>
         )}
       </Box>
     </Box>
