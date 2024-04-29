@@ -164,13 +164,12 @@ router.get("/list", isBuyer, async (req, res) => {
         unitPrice: { $first: "$productDetails.price" },
         image: { $first: "$productDetails.image" },
         orderedQuantity: 1,
+        productId: 1,
       },
     },
   ]);
 
   return res.status(200).send({ message: "success", cartData: cartData });
 });
-
-router.put("/");
 
 module.exports = router;
