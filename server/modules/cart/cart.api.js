@@ -143,7 +143,7 @@ router.get("/list", isBuyer, async (req, res) => {
   // extract buyerId from req.loggedInUserId
   const buyerId = req.loggedInUserId;
 
-  const cartData = await Cart.aggregate([
+  const cartData = await cartModel.aggregate([
     {
       $match: {
         buyerId: buyerId,
