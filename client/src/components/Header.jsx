@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Badge, Tooltip } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useQuery } from "@tanstack/react-query";
+import { $axios } from "../axios/axiosInstance";
 
 const drawerWidth = 240;
 const navItems = [
@@ -68,7 +70,14 @@ const Header = (props) => {
       </List>
     </Box>
   );
-
+  const { isPending, data } = useQuery({
+    queryKey: ["gert-cart-item-count"],
+    queryFn: async () => {
+      return await $axios.get("/cart/itemCount");
+    },
+    enabled: userRole === "buyer",
+  });
+  const cartItemCount = data?.data?.cartItemCount;
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -113,7 +122,7 @@ const Header = (props) => {
                 navigate("/cart");
               }}
             >
-              <Badge badgeContent={1} color="primary">
+              <Badge badgeContent={cartItemCount} color="primary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

@@ -6,10 +6,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
-import { IconButton, LinearProgress } from "@mui/material";
+import {
+  Button,
+  Chip,
+  CircularProgress,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
+import { fallBackImage } from "../constants/general.constants";
+import { useNavigate, useParams } from "react-router-dom";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -23,60 +33,122 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-const CartItemTable = () => {
-  const { isPending, data } = useQuery({
-    queryKey: ["cart"],
-    queryFn: async () => {
-      return await $axios.get("/cart/list");
+const CartItemTable = ({ cartData }) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { isPending: removeSingleCartItemPending, mutate } = useMutation({
+    mutationKey: ["remove-single-cart-item"],
+    mutationFn: async (productId) => {
+      return await $axios.delete(`/cart/delete/${productId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("get-cart-item-list");
     },
   });
-  const cartData = data?.data?.cartData;
-  console.log(cartData);
-  if (isPending) {
-    return <LinearProgress />;
-  }
-  //   return (
-  //     <TableContainer component={Paper}>
-  //       <Table sx={{ width: "70%" }} aria-label="simple table">
-  //         <TableHead>
-  //           <TableRow>
-  //             <TableCell>S.N.</TableCell>
-  //             <TableCell align="right">Image</TableCell>
-  //             <TableCell align="right">Product</TableCell>
-  //             <TableCell align="right">Price</TableCell>
-  //             <TableCell align="right">Ordered Quantity</TableCell>
-  //             <TableCell align="right">Sub total</TableCell>
-  //             <TableCell align="right">Action</TableCell>
-  //           </TableRow>
-  //         </TableHead>
-  //         <TableBody>
-  //           {cartData.map((cart, index) => (
-  //             <TableRow
-  //               key={cart._id}
-  //               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-  //             >
-  //               <TableCell component="th" scope="row">
-  //                 {index + 1}
-  //               </TableCell>
-  //               <TableCell align="right">
-  //                 <img
-  //                   src={cart.image}
-  //                   alt=""
-  //                   style={{ height: "200px", width: "200px" }}
-  //                 />
-  //               </TableCell>
-  //               <TableCell align="right">{cart.name}</TableCell>
-  //               <TableCell align="right">{cart.unitPrice}</TableCell>
-  //               <TableCell align="right">{cart.orderedQuantity}</TableCell>
-  //               <TableCell align="right">200</TableCell>
-  //               <IconButton>
-  //                 <ClearIcon />
-  //               </IconButton>
-  //             </TableRow>
-  //           ))}
-  //         </TableBody>
-  //       </Table>
-  //     </TableContainer>
-  //   );
+  const { isPending: removeAllCartPending, mutate: removeAllCartMutate } =
+    useMutation({
+      mutationKey: ["remove-all-cart-item"],
+      mutationFn: async () => {
+        return await $axios.delete("/cart/clear");
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("get-cart-item-list");
+      },
+    });
+
+  return (
+    <TableContainer
+      component={Paper}
+      sx={{
+        width: "70%",
+        boxShadow:
+          "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+      }}
+    >
+      {(removeAllCartPending || removeSingleCartItemPending) && (
+        <LinearProgress color="success" />
+      )}
+      <Button
+        variant="contained"
+        color="error"
+        type="submit"
+        onClick={() => {
+          removeAllCartMutate();
+        }}
+      >
+        Clear Cart
+      </Button>
+      <Table sx={{ width: "70%" }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>S.N.</TableCell>
+            <TableCell align="center">Image</TableCell>
+            <TableCell align="center">Product</TableCell>
+            <TableCell align="center">Price</TableCell>
+            <TableCell align="right">Quantity</TableCell>
+            <TableCell align="left">Sub total</TableCell>
+            <TableCell align="right">Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {cartData.map((cart, index) => (
+            <TableRow
+              key={cart._id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {index + 1}
+              </TableCell>
+              <TableCell align="right">
+                <img
+                  src={cart.image || fallBackImage}
+                  alt={cart.name}
+                  style={{
+                    height: "200px",
+                    width: "200px",
+                    objectFit: "cover",
+                  }}
+                  onClick={() => {
+                    navigate(`/product-detail/${cart.productId}`);
+                  }}
+                />
+              </TableCell>
+              <TableCell align="center">
+                <Stack spacing={2} justifyContent="center" alignItems="center">
+                  <Typography variant="body1"> {cart.name}</Typography>
+                  <Chip
+                    label={cart.brand}
+                    color="secondary"
+                    variant="outlined"
+                    sx={{ fontSize: "1rem" }}
+                  />
+                </Stack>
+              </TableCell>
+              <TableCell align="right">
+                <Typography variant="body1">${cart.unitPrice}</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="body1">{cart.orderQuantity}</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="body1">{200}</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <IconButton
+                  color="error"
+                  onClick={() => {
+                    mutate(cart.productId);
+                  }}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 };
 export default CartItemTable;
