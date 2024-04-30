@@ -15,9 +15,7 @@ const BuyerProductList = () => {
       });
     },
   });
-  //console.log(data);
   const productDetail = data?.data?.data;
-  console.log(productDetail);
   if (isPending) {
     return <CircularProgress />;
   }

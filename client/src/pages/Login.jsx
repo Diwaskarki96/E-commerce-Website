@@ -35,7 +35,6 @@ const Login = () => {
       const firstName = res?.data?.userDetails?.firstName;
       const accessToken = res?.data?.token;
       const role = res?.data?.userDetails?.role;
-      console.log(res?.data);
 
       localStorage.setItem("firstName", firstName);
       localStorage.setItem("accessToken", accessToken);

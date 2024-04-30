@@ -145,7 +145,6 @@ const EditProduct = () => {
                 }
                 label="Free Shipping"
               />
-              {console.log(formik.values)}
             </FormControl>
             <FormControl fullWidth required>
               <InputLabel>Category</InputLabel>

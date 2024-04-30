@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import DeleteProductDialog from "../components/DeleteProductDialog";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -24,7 +24,7 @@ const ProductDetail = () => {
   const productId = params.id;
   const userRole = localStorage.getItem("role");
   const [productCount, setproductCount] = useState(1);
-
+  const queryClient = useQueryClient();
   const { isPending, data } = useQuery({
     queryKey: ["get-product-detail"],
     queryFn: async () => {
@@ -40,11 +40,11 @@ const ProductDetail = () => {
       });
     },
     onSuccess: () => {
-      navigate("/cart");
+      queryClient.invalidateQueries("gert-cart-item-count");
     },
   });
   const productDetail = data?.data?.data;
-  if (isPending) {
+  if (isPending || addToCartPending) {
     return <CircularProgress />;
   }
   return (
@@ -84,7 +84,7 @@ const ProductDetail = () => {
         <Typography sx={{ textAlign: "justify" }}>
           {productDetail.description}
         </Typography>
-        <Typography variant="h6">Price: $50.50</Typography>
+        <Typography variant="h6">Price: ${productDetail.price}</Typography>
 
         <Chip
           variant="outlined"
