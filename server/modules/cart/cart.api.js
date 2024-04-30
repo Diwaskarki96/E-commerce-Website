@@ -163,7 +163,7 @@ router.get("/list", isBuyer, async (req, res) => {
         brand: { $first: "$productDetails.brand" },
         unitPrice: { $first: "$productDetails.price" },
         image: { $first: "$productDetails.image" },
-        orderedQuantity: 1,
+        orderQuantity: 1,
         productId: 1,
       },
     },
@@ -172,4 +172,16 @@ router.get("/list", isBuyer, async (req, res) => {
   return res.status(200).send({ message: "success", cartData: cartData });
 });
 
+router.get("/itemCount", isBuyer, async (req, res, next) => {
+  try {
+    const loggedInUserId = req.loggedInUserId;
+
+    const cartItemCount = await cartModel
+      .find({ buyerId: loggedInUserId })
+      .countDocuments();
+    return res.json({ msg: "success", cartItemCount });
+  } catch (e) {
+    next(e);
+  }
+});
 module.exports = router;
