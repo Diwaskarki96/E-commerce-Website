@@ -29,6 +29,7 @@ const ProductCard = ({ name, price, description, _id, image }) => {
           width: "100%",
           cursor: "pointer",
           objectFit: "cover",
+          padding: "1rem",
         }}
         component="img"
         image={image || fallBackImage}

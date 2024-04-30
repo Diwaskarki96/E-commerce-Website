@@ -8,7 +8,18 @@ const MainLayout = () => {
   return (
     <Box>
       <Header />
-      <Outlet />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          margin: "3rem 0",
+        }}
+      >
+        <Outlet />
+      </Box>
+
       <Footer />
     </Box>
   );
