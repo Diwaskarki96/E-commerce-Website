@@ -14,25 +14,32 @@ const SellerProductList = () => {
     queryFn: async () => {
       return await $axios.post("/product/productList/seller", {
         page: 1,
-        limit: 20,
+        limit: 3,
       });
     },
   });
 
+  console.log(data);
   const productList = data?.data?.data;
 
   if (isPending) {
     return <CircularProgress />;
   }
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Button
         variant="contained"
         color="success"
         onClick={() => {
           navigate("/add-products");
         }}
-        sx={{ marginBottom: "2rem" }}
+        sx={{ marginBottom: "2rem", marginTop: "1rem" }}
       >
         add product
       </Button>
@@ -53,7 +60,7 @@ const SellerProductList = () => {
           <img src={fallBackImage} alt="" />
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 

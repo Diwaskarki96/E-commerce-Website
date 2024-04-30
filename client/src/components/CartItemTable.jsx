@@ -8,6 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import {
   Button,
   Chip,
@@ -20,6 +22,7 @@ import {
 import ClearIcon from "@mui/icons-material/Clear";
 import { fallBackImage } from "../constants/general.constants";
 import { useNavigate, useParams } from "react-router-dom";
+import { Add } from "@mui/icons-material";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -37,7 +40,10 @@ const CartItemTable = ({ cartData }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { isPending: removeSingleCartItemPending, mutate } = useMutation({
+  const {
+    isPending: removeSingleCartItemPending,
+    mutate: removeSingleCartMutate,
+  } = useMutation({
     mutationKey: ["remove-single-cart-item"],
     mutationFn: async (productId) => {
       return await $axios.delete(`/cart/delete/${productId}`);
@@ -56,7 +62,18 @@ const CartItemTable = ({ cartData }) => {
         queryClient.invalidateQueries("get-cart-item-list");
       },
     });
-
+  const { isPending: updateQuantityPending, mutate: updateQuantityMutate } =
+    useMutation({
+      mutationKey: ["update-cart-item-quantity"],
+      mutationFn: async (values) => {
+        return await $axios.put(`/cart/edit/${values.productId}`, {
+          action: values.action,
+        });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("get-cart-item-list");
+      },
+    });
   return (
     <TableContainer
       component={Paper}
@@ -66,9 +83,9 @@ const CartItemTable = ({ cartData }) => {
           "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
       }}
     >
-      {(removeAllCartPending || removeSingleCartItemPending) && (
-        <LinearProgress color="success" />
-      )}
+      {(removeAllCartPending ||
+        removeSingleCartItemPending ||
+        updateQuantityPending) && <LinearProgress color="success" />}
       <Button
         variant="contained"
         color="error"
@@ -130,7 +147,31 @@ const CartItemTable = ({ cartData }) => {
                 <Typography variant="body1">${cart.unitPrice}</Typography>
               </TableCell>
               <TableCell align="center">
-                <Typography variant="body1">{cart.orderQuantity}</Typography>
+                <Stack flexDirection="row" alignItems="center" spacing="0.5">
+                  <IconButton
+                    disabled={cart.orderQuantity === 1 || updateQuantityPending}
+                    onClick={() => {
+                      updateQuantityMutate({
+                        productId: cart?.productId,
+                        action: "dec",
+                      });
+                    }}
+                  >
+                    <RemoveIcon />
+                  </IconButton>
+                  <Typography variant="body1">{cart.orderQuantity}</Typography>
+                  <IconButton
+                    disabled={updateQuantityPending}
+                    onClick={() => {
+                      updateQuantityMutate({
+                        productId: cart?.productId,
+                        action: "inc",
+                      });
+                    }}
+                  >
+                    <Add />
+                  </IconButton>
+                </Stack>
               </TableCell>
               <TableCell align="center">
                 <Typography variant="body1">{200}</Typography>
@@ -139,7 +180,7 @@ const CartItemTable = ({ cartData }) => {
                 <IconButton
                   color="error"
                   onClick={() => {
-                    mutate(cart.productId);
+                    removeSingleCartMutate(cart.productId);
                   }}
                 >
                   <ClearIcon />

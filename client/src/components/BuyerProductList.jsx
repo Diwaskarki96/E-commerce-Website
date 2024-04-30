@@ -1,6 +1,6 @@
 import React from "react";
 import ProductCard from "./ProductCard";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Pagination } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
@@ -11,7 +11,7 @@ const BuyerProductList = () => {
     queryFn: async () => {
       return await $axios.post("/product/productList/buyer", {
         page: 1,
-        limit: 9,
+        limit: 3,
       });
     },
   });
@@ -36,6 +36,7 @@ const BuyerProductList = () => {
       ) : (
         <img src={fallBackImage} alt="" />
       )}
+      <Pagination count={10} color="secondary" />
     </Box>
   );
 };

@@ -120,7 +120,9 @@ router.post(
           },
         },
       ]);
-      res.json({ msg: "success", data: product });
+      const totalProduct = await productModel.find().countDocuments();
+      const totalPage = Math.ceil(totalProduct / limit);
+      res.json({ msg: "success", data: product, totalPage });
     } catch (e) {
       next(e);
     }
@@ -153,10 +155,15 @@ router.post(
           },
         },
       ]);
-      res.json({ msg: "success", data: allProducts });
+      const totalProduct = await productModel
+        .find({ sellerId: req.loggedInUserId })
+        .countDocuments();
+      const totalPage = Math.ceil(totalProduct / limit);
+      res.json({ msg: "success", data: allProducts, totalPage });
     } catch (e) {
       next(e);
     }
   }
 );
+
 module.exports = router;
