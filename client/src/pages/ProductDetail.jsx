@@ -15,6 +15,7 @@ import { $axios } from "../axios/axiosInstance";
 import DeleteProductDialog from "../components/DeleteProductDialog";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { fallBackImage } from "../constants/general.constants";
 
 // Box => div
 // Stack => div which has display flex and direction column
@@ -57,11 +58,17 @@ const ProductDetail = () => {
       }}
     >
       <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minWidth: "50%",
+        }}
       >
         <img
-          src="https://media.istockphoto.com/id/136568907/photo/a-purple-winter-parka-for-a-fashion-image.jpg?s=612x612&w=0&k=20&c=fK2_No3CvQnqIY9ti2giLz2w8IaUmSrptu2iSNxd93g="
+          src={productDetail.image || fallBackImage}
           alt=""
+          style={{ width: "90%" }}
         />
       </Box>
       <Box
@@ -101,7 +108,7 @@ const ProductDetail = () => {
           <Typography variant="h6">Free shipping</Typography>
           <Chip
             variant="outlined"
-            color="success"
+            color={productDetail.freeShipping ? "success" : "error"}
             label={productDetail.freeShipping ? "Yes" : "No"}
             sx={{ fontSize: "1rem" }}
           />

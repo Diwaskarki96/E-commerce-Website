@@ -24,7 +24,13 @@ const ProductCard = ({ name, price, description, _id, image }) => {
       }}
     >
       <CardMedia
-        sx={{ height: "400px", width: "100%", cursor: "pointer" }}
+        sx={{
+          height: "400px",
+          width: "100%",
+          cursor: "pointer",
+          objectFit: "cover",
+        }}
+        component="img"
         image={image || fallBackImage}
         title="Samsung"
         onClick={() => {

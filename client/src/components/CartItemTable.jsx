@@ -107,6 +107,7 @@ const CartItemTable = ({ cartData }) => {
                   style={{
                     height: "200px",
                     width: "200px",
+                    cursor: "pointer",
                     objectFit: "cover",
                   }}
                   onClick={() => {
