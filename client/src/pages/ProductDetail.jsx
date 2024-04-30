@@ -16,6 +16,7 @@ import DeleteProductDialog from "../components/DeleteProductDialog";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { fallBackImage } from "../constants/general.constants";
+import Loader from "../components/Loader";
 
 // Box => div
 // Stack => div which has display flex and direction column
@@ -46,7 +47,7 @@ const ProductDetail = () => {
   });
   const productDetail = data?.data?.data;
   if (isPending || addToCartPending) {
-    return <CircularProgress />;
+    return <Loader />;
   }
   return (
     <Box
