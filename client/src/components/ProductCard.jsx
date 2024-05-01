@@ -14,11 +14,8 @@ const ProductCard = ({ name, price, description, _id, image }) => {
   return (
     <Card
       sx={{
-        width: {
-          xs: "100%",
-          sm: "45%",
-          md: "30%",
-        },
+        width: "400px",
+
         boxShadow:
           " rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
       }}
