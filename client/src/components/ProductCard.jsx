@@ -49,7 +49,7 @@ const ProductCard = ({ name, price, description, _id, image }) => {
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ textAlign: "justify" }}
+          sx={{ textAlign: "justify", height: "100px" }}
         >
           {description}...
         </Typography>
