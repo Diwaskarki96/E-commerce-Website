@@ -44,7 +44,7 @@ const ProductCard = ({ name, price, description, _id, image }) => {
           <Chip label="Samsung" color="secondary" variant="outlined" />
         </Stack>
 
-        <Typography>Price:{price}</Typography>
+        <Typography>Rs.{price}</Typography>
 
         <Typography
           variant="body2"

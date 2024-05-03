@@ -6,8 +6,10 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
   Typography,
@@ -93,7 +95,7 @@ const AddProduct = () => {
                   <FormHelperText error>{formik.errors.brand}</FormHelperText>
                 ) : null}
               </FormControl>
-              <FormControl fullWidth>
+              {/* <FormControl fullWidth>
                 <TextField
                   label="Price"
                   {...formik.getFieldProps("price")}
@@ -101,6 +103,20 @@ const AddProduct = () => {
                   required
                 />
 
+                {formik.touched.price && formik.errors.price ? (
+                  <FormHelperText error>{formik.errors.price}</FormHelperText>
+                ) : null}
+              </FormControl> */}
+              <FormControl fullWidth>
+                <InputLabel>Price</InputLabel>
+                <OutlinedInput
+                  startAdornment={
+                    <InputAdornment position="start">Rs.</InputAdornment>
+                  }
+                  label="Price"
+                  type="number"
+                  {...formik.getFieldProps("price")}
+                />
                 {formik.touched.price && formik.errors.price ? (
                   <FormHelperText error>{formik.errors.price}</FormHelperText>
                 ) : null}

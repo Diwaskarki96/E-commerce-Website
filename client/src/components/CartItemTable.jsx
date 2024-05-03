@@ -143,7 +143,7 @@ const CartItemTable = ({ cartData }) => {
                 </Stack>
               </TableCell>
               <TableCell align="right">
-                <Typography variant="body1">${cart.unitPrice}</Typography>
+                <Typography variant="body1">Rs.{cart.unitPrice}</Typography>
               </TableCell>
               <TableCell align="center">
                 <Stack flexDirection="row" alignItems="center" spacing="0.5">
