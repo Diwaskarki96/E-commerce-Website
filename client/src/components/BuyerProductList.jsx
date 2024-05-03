@@ -1,13 +1,25 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
-import { Box, Pagination } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  Input,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Pagination,
+  TextField,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
 import Loader from "./Loader";
+import { AccountCircle } from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const BuyerProductList = () => {
   const [currentPage, setcurrentPage] = useState(1);
+  const [searchItem, setsearchItem] = useState("");
   const { isPending, data } = useQuery({
     queryKey: ["get-buyer-products", currentPage],
     queryFn: async () => {
@@ -25,6 +37,19 @@ const BuyerProductList = () => {
   }
   return (
     <>
+      <FormControl variant="standard">
+        <OutlinedInput
+          placeholder="Search Products..."
+          startAdornment={
+            <InputAdornment position="start" sx={{ color: "purple " }}>
+              <SearchIcon sx={{ fontSize: "2rem" }} />
+            </InputAdornment>
+          }
+          onChange={(event) => {
+            setsearchItem(event.target.value);
+          }}
+        />
+      </FormControl>
       <Box
         sx={{
           display: "flex",
@@ -32,7 +57,7 @@ const BuyerProductList = () => {
           justifyContent: "center",
           alignItems: "center",
           gap: "3rem",
-          mb: "2rem",
+          margin: "1rem",
         }}
       >
         {productDetail && productDetail.length > 0 ? (
