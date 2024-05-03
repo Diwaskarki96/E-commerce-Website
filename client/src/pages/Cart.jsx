@@ -15,6 +15,7 @@ const Cart = () => {
     },
   });
   const cartData = data?.data?.cartData;
+  const orderSummary = data?.data?.orderSummary;
   if (isPending) {
     return <Loader />;
   }
@@ -34,7 +35,7 @@ const Cart = () => {
           }}
         >
           <CartItemTable cartData={cartData} />
-          <OrderSummary />
+          <OrderSummary orderSummary={orderSummary} />
         </Box>
       ) : (
         <KeepShopping />
