@@ -78,6 +78,7 @@ const CartItemTable = ({ cartData }) => {
       component={Paper}
       sx={{
         width: "70%",
+
         boxShadow:
           "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
       }}
@@ -118,8 +119,8 @@ const CartItemTable = ({ cartData }) => {
               </TableCell>
               <TableCell align="right">
                 <img
-                  src={cart.image || fallBackImage}
-                  alt={cart.name}
+                  src={cart?.image || fallBackImage}
+                  alt={cart?.name}
                   style={{
                     height: "200px",
                     width: "200px",
@@ -173,7 +174,7 @@ const CartItemTable = ({ cartData }) => {
                 </Stack>
               </TableCell>
               <TableCell align="center">
-                <Typography variant="body1">{200}</Typography>
+                <Typography variant="body1">Rs.{cart?.subTotal}</Typography>
               </TableCell>
               <TableCell align="right">
                 <IconButton
