@@ -167,11 +167,22 @@ router.get("/list", isBuyer, async (req, res) => {
         productId: 1,
       },
     },
+    {
+      $project: {
+        name: 1,
+        brand: 1,
+        unitPrice: 1,
+        orderQuantity: 1,
+        productId: 1,
+        subTotal: { $multiply: ["$unitPrice", "$orderQuantity"] },
+      },
+    },
   ]);
 
   return res.status(200).send({ message: "success", cartData: cartData });
 });
 
+//-----item count------
 router.get("/itemCount", isBuyer, async (req, res, next) => {
   try {
     const loggedInUserId = req.loggedInUserId;
