@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Box, Button, CircularProgress, Pagination } from "@mui/material";
+import { Box, Button, Pagination } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
 import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
+import Loader from "../components/Loader";
 
 const SellerProductList = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const SellerProductList = () => {
   const productList = data?.data?.data;
   const totalPage = data?.data?.totalPage;
   if (isPending) {
-    return <CircularProgress />;
+    return <Loader />;
   }
   return (
     <>

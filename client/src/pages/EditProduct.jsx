@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -20,6 +19,7 @@ import {
 import { productCategories } from "../constants/general.constants";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
 import { Formik } from "formik";
+import Loader from "../components/Loader";
 
 const EditProduct = () => {
   const params = useParams();
@@ -45,7 +45,7 @@ const EditProduct = () => {
     },
   });
   if (isPending) {
-    return <CircularProgress />;
+    return <Loader />;
   }
   return (
     <Box>

@@ -1,10 +1,11 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import CartItemTable from "../components/CartItemTable";
 import OrderSummary from "../components/OrderSummary";
 import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import KeepShopping from "../components/KeepShopping";
+import Loader from "../components/Loader";
 
 const Cart = () => {
   const { isPending, data } = useQuery({
@@ -15,7 +16,7 @@ const Cart = () => {
   });
   const cartData = data?.data?.cartData;
   if (isPending) {
-    return <CircularProgress />;
+    return <Loader />;
   }
   return (
     <>

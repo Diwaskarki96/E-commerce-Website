@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
-import { CircularProgress } from "@mui/material";
+import Loader from "./Loader";
 
 export default function DeleteProductDialog() {
   const params = useParams();
@@ -26,7 +26,7 @@ export default function DeleteProductDialog() {
     },
   });
   if (isPending) {
-    return <CircularProgress />;
+    return <Loader />;
   }
 
   const handleClickOpen = () => {

@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   IconButton,
   Stack,
   Typography,

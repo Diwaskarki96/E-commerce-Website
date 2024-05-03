@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -19,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { productCategories } from "../constants/general.constants";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
 import { $axios } from "../axios/axiosInstance";
+import Loader from "../components/Loader";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const AddProduct = () => {
   });
 
   if (isPending) {
-    return <CircularProgress />;
+    return <Loader />;
   }
 
   return (
