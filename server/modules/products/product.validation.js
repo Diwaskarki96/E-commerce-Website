@@ -51,6 +51,7 @@ const paginationValidation = YUP.object({
     .min(1, "Page must be atleast 1")
     .positive(),
   limit: YUP.number().required("Limit is required").positive(),
+  searchText: YUP.string().nullable(),
 });
 
 module.exports = { productValidation, paginationValidation };

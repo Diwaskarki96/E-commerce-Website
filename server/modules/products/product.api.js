@@ -100,11 +100,15 @@ router.post(
   validateReqBody(paginationValidation),
   async (req, res, next) => {
     try {
-      const { limit, page } = req.body;
+      const { limit, page, searchText } = req.body;
       const skip = (page - 1) * limit;
+      let match = {};
+      if (searchText) {
+        match = { name: { $regex: searchText, $options: "i" } };
+      }
 
       const product = await productModel.aggregate([
-        { $match: {} },
+        { $match: match },
         { $skip: skip },
         { $limit: limit },
         {
@@ -120,7 +124,7 @@ router.post(
           },
         },
       ]);
-      const totalProduct = await productModel.find().countDocuments();
+      const totalProduct = await productModel.find(match).countDocuments();
       const totalPage = Math.ceil(totalProduct / limit);
       res.json({ msg: "success", data: product, totalPage });
     } catch (e) {
