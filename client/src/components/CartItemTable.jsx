@@ -10,12 +10,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {
+  Box,
   Button,
   Chip,
   IconButton,
   LinearProgress,
   Stack,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -38,7 +41,7 @@ const rows = [
 const CartItemTable = ({ cartData }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
+  console.log(cartData);
   const {
     isPending: removeSingleCartItemPending,
     mutate: removeSingleCartMutate,
@@ -86,17 +89,30 @@ const CartItemTable = ({ cartData }) => {
       {(removeAllCartPending ||
         removeSingleCartItemPending ||
         updateQuantityPending) && <LinearProgress color="success" />}
-      <Button
-        variant="contained"
-        color="error"
-        type="submit"
-        onClick={() => {
-          removeAllCartMutate();
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        Clear Cart
-      </Button>
-      <Table sx={{ width: "70%" }} aria-label="simple table">
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <ShoppingCartOutlinedIcon sx={{ fontSize: "2rem", color: "green" }} />
+          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+            Shopping Cart
+          </Typography>
+        </Stack>
+        <Button
+          variant="contained"
+          color="error"
+          sx={{ textAlign: "right" }}
+          onClick={() => {
+            removeAllCartMutate();
+          }}
+        >
+          clear cart
+        </Button>
+      </Toolbar>
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>S.N.</TableCell>

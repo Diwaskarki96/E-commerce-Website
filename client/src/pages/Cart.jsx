@@ -21,9 +21,6 @@ const Cart = () => {
   }
   return (
     <>
-      <Typography variant="h3" sx={{ mb: "2rem" }}>
-        Shopping cart
-      </Typography>
       {cartData?.length > 0 ? (
         <Box
           sx={{

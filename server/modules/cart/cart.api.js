@@ -175,6 +175,7 @@ router.get("/list", isBuyer, async (req, res) => {
         orderQuantity: 1,
         productId: 1,
         subTotal: { $multiply: ["$unitPrice", "$orderQuantity"] },
+        image: 1,
       },
     },
   ]);
@@ -187,7 +188,6 @@ router.get("/list", isBuyer, async (req, res) => {
   });
   discountAmount = (5 / 100) * allProductSubTotal;
   grandTotal = allProductSubTotal - discountAmount;
-
   return res.status(200).send({
     message: "success",
     cartData: cartData,

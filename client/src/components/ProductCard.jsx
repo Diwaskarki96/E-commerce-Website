@@ -9,7 +9,7 @@ import { Chip, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { fallBackImage } from "../constants/general.constants";
 
-const ProductCard = ({ name, price, description, _id, image }) => {
+const ProductCard = ({ name, price, description, _id, image, category }) => {
   const navigate = useNavigate();
   return (
     <Card
@@ -30,7 +30,7 @@ const ProductCard = ({ name, price, description, _id, image }) => {
         }}
         component="img"
         image={image || fallBackImage}
-        title="Samsung"
+        title={`${name}-${category}`}
         onClick={() => {
           navigate(`/product-detail/${_id}`);
         }}
