@@ -19,13 +19,14 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const BuyerProductList = () => {
   const [currentPage, setcurrentPage] = useState(1);
-  const [searchItem, setsearchItem] = useState("");
+  const [searchText, setsearchText] = useState("");
   const { isPending, data } = useQuery({
-    queryKey: ["get-buyer-products", currentPage],
+    queryKey: ["get-buyer-products", currentPage, searchText],
     queryFn: async () => {
       return await $axios.post("/product/productList/buyer", {
         page: currentPage,
         limit: 3,
+        searchText: searchText || null,
       });
     },
   });
@@ -46,7 +47,8 @@ const BuyerProductList = () => {
             </InputAdornment>
           }
           onChange={(event) => {
-            setsearchItem(event.target.value);
+            setsearchText(event.target.value);
+            setcurrentPage(1);
           }}
         />
       </FormControl>
