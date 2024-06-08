@@ -7,7 +7,7 @@ import "./App.css";
 import { guestRoutes } from "./routes/guestRoutes.jsx";
 import { mainRoutes } from "./routes/mainRoutes.jsx";
 import { Provider } from "react-redux";
-import { reduxStore } from "./store/store.js";
+import reduxStore from "./store/store.js";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([...guestRoutes, ...mainRoutes]);
