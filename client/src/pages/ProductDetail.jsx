@@ -157,6 +157,7 @@ const ProductDetail = () => {
               type="submit"
               onClick={() => {
                 mutate();
+                navigate("/products");
               }}
             >
               Add to cart

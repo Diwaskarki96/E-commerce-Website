@@ -180,13 +180,13 @@ router.get("/list", isBuyer, async (req, res) => {
     },
   ]);
   let allProductSubTotal = 0;
-  let discountPercent = 5; // 5% flat discount
+  let discountPercent = 0; // 5% flat discount
   let discountAmount = 0;
   let grandTotal = 0;
   cartData.forEach((cart) => {
     allProductSubTotal = allProductSubTotal + cart.subTotal;
   });
-  discountAmount = (5 / 100) * allProductSubTotal;
+  discountAmount = (0 / 100) * allProductSubTotal;
   grandTotal = allProductSubTotal - discountAmount;
   return res.status(200).send({
     message: "success",
