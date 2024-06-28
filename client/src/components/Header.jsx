@@ -34,8 +34,8 @@ const navItems = [
   },
   {
     id: 3,
-    name: "About",
-    path: "/about",
+    name: "About me",
+    path: "/about-me",
   },
 ];
 

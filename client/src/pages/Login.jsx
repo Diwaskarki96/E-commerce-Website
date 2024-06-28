@@ -65,7 +65,9 @@ const Login = () => {
         >
           {(formik) => {
             return (
-              <div>
+              <div style={{
+                
+              }}>
                 {error && (
                   <Alert sx={{ marginBottom: "2rem" }} severity="error">
                     {error}
@@ -77,6 +79,7 @@ const Login = () => {
                   style={{
                     boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                     display: "flex",
+
                     flexDirection: "column",
                     padding: "1rem",
                     gap: "1rem",

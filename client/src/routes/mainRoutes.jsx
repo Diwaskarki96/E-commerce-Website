@@ -1,5 +1,5 @@
 import MainLayout from "../layout/MainLayout";
-import About from "../pages/About";
+import AboutMePage from "../pages/AboutMePage";
 import AddProduct from "../pages/AddProduct";
 import Cart from "../pages/Cart";
 import EditProduct from "../pages/EditProduct";
@@ -17,8 +17,8 @@ export const mainRoutes = [
         element: <Home />,
       },
       {
-        path: "about",
-        element: <About />,
+        path: "about-me",
+        element: <AboutMePage />,
       },
       {
         path: "products",
