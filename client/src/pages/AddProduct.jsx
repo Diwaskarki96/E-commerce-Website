@@ -11,6 +11,7 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,8 +22,15 @@ import { productCategories } from "../constants/general.constants";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
 import { $axios } from "../axios/axiosInstance";
 import Loader from "../components/Loader";
+import { useState } from "react";
+import axios from "axios";
 
 const AddProduct = () => {
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+  const [productImage, setProductImage] = useState(null);
+  const [localUrl, setLocalUrl] = useState("");
+  const [imageUploadLoading, setimageUploadLoading] = useState(false);
   const navigate = useNavigate();
   const { isPending, mutate } = useMutation({
     mutationKey: ["add-product"],
@@ -34,7 +42,7 @@ const AddProduct = () => {
     },
   });
 
-  if (isPending) {
+  if (isPending || imageUploadLoading) {
     return <Loader />;
   }
 
@@ -53,7 +61,27 @@ const AddProduct = () => {
             description: "",
           }}
           validationSchema={addProductValidationSchema}
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
+            let imageUrl = null;
+            if (productImage) {
+              const data = new FormData();
+              data.append("file", productImage);
+              data.append("upload_preset", uploadPreset);
+              data.append("cloud_name", cloudName);
+              try {
+                setimageUploadLoading(true);
+                const response = await axios.post(
+                  `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+                  data
+                );
+                imageUrl = response?.data?.secure_url;
+                setimageUploadLoading(false);
+              } catch (error) {
+                setimageUploadLoading(false);
+                console.log(error.message);
+              }
+            }
+            values.image = imageUrl;
             mutate(values);
           }}
         >
@@ -72,7 +100,21 @@ const AddProduct = () => {
               }}
             >
               <Typography variant="h5">Add Product</Typography>
-
+              {localUrl && (
+                <Stack sx={{ height: "250px" }}>
+                  <img src={localUrl} alt="" height="100%" width="100%" />
+                </Stack>
+              )}
+              <FormControl>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setProductImage(file);
+                    setLocalUrl(URL.createObjectURL(file));
+                  }}
+                />
+              </FormControl>
               <FormControl fullWidth>
                 <TextField
                   label="Name"

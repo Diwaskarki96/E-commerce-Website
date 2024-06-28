@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { $axios } from "../axios/axiosInstance";
 import {
@@ -13,15 +13,25 @@ import {
   LinearProgress,
   MenuItem,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { productCategories } from "../constants/general.constants";
+import {
+  fallBackImage,
+  productCategories,
+} from "../constants/general.constants";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
 import { Formik } from "formik";
 import Loader from "../components/Loader";
+import axios from "axios";
 
 const EditProduct = () => {
+  const [productImage, setProductImage] = useState(null);
+  const [localUrl, setLocalUrl] = useState("");
+  const [imageUploadLoading, setImageUploadLoading] = useState(false);
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   const params = useParams();
   const productID = params.id;
   const navigate = useNavigate();
@@ -44,7 +54,7 @@ const EditProduct = () => {
       console.log(error?.response?.data?.msg);
     },
   });
-  if (isPending) {
+  if (isPending || imageUploadLoading) {
     return <Loader />;
   }
   return (
@@ -64,7 +74,28 @@ const EditProduct = () => {
           description: productDetail?.description || "",
         }}
         validationSchema={addProductValidationSchema}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
+          let imageUrl = null;
+          if (productImage) {
+            const data = new FormData();
+            data.append("file", productImage);
+            data.append("cloud_name", cloudName);
+            data.append("upload_preset", uploadPreset);
+            try {
+              setImageUploadLoading(true);
+              const response = await axios.post(
+                `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+                data
+              );
+              imageUrl = response?.data?.secure_url;
+              setImageUploadLoading(false);
+            } catch (error) {
+              setImageUploadLoading(false);
+
+              console.log(error.message);
+            }
+          }
+          values.image = imageUrl;
           mutate(values);
         }}
       >
@@ -82,8 +113,23 @@ const EditProduct = () => {
               boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
             }}
           >
-            <Typography variant="h5">Add Product</Typography>
-
+            <Typography variant="h5">Edit Product</Typography>
+            <Stack>
+              <img
+                src={localUrl || productDetail?.image || fallBackImage}
+                alt=""
+                height="100%"
+                width="100%"
+              />
+            </Stack>
+            <input
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setProductImage(file);
+                setLocalUrl(URL.createObjectURL(file));
+              }}
+            />
             <FormControl fullWidth>
               <TextField
                 label="Name"
