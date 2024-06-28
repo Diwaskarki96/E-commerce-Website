@@ -9,7 +9,15 @@ import { Chip, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { fallBackImage } from "../constants/general.constants";
 
-const ProductCard = ({ name, price, description, _id, image, category }) => {
+const ProductCard = ({
+  name,
+  price,
+  description,
+  _id,
+  image,
+  category,
+  brand,
+}) => {
   const navigate = useNavigate();
   return (
     <Card
@@ -41,7 +49,7 @@ const ProductCard = ({ name, price, description, _id, image, category }) => {
             {name}
           </Typography>
 
-          <Chip label="Samsung" color="secondary" variant="outlined" />
+          <Chip label={brand} color="secondary" variant="outlined" />
         </Stack>
 
         <Typography>Rs.{price}</Typography>
