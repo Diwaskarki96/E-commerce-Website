@@ -20,8 +20,9 @@ app.use(cors());
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
-
-app.use(errorHandler);
+app.get("/", (req, res) => {
+  res.json({ data: "", msg: "Api is working" });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
