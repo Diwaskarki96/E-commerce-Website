@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const $axios = axios.create({
-  baseURL: "https://e-commerce-website-s59h.onrender.com/",
+  baseURL: "http://localhost:8000/",
   timeout: 5000,
 });
 

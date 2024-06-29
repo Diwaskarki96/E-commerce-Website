@@ -52,7 +52,14 @@ const Login = () => {
   return (
     <>
       {isPending && <LinearProgress />}
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "10rem",
+        }}
+      >
         <Formik
           initialValues={{
             email: "",
@@ -65,9 +72,7 @@ const Login = () => {
         >
           {(formik) => {
             return (
-              <div style={{
-                
-              }}>
+              <div style={{}}>
                 {error && (
                   <Alert sx={{ marginBottom: "2rem" }} severity="error">
                     {error}

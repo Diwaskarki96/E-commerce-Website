@@ -44,7 +44,13 @@ const Registration = () => {
     event.preventDefault();
   };
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "4rem",
+      }}
+    >
       {isPending && <LinearProgress />}
       <Formik
         initialValues={{
