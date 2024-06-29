@@ -49,10 +49,10 @@ const ProductDetail = () => {
     onSuccess: (res) => {
       queryClient.invalidateQueries("gert-cart-item-count");
       navigate("/cart");
-      dispatch(openSuccessSnackbar(res?.data.msg));
+      dispatch(openSuccessSnackbar(res?.data.message));
     },
     onError: (error) => {
-      dispatch(openErrorSnackbar(error));
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
   const productDetail = data?.data?.data;

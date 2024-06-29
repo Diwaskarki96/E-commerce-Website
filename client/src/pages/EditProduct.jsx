@@ -51,7 +51,7 @@ const EditProduct = () => {
       navigate(`/product-detail/${productID}`);
     },
     onError: (error) => {
-      console.log(error?.response?.data?.msg);
+      console.log(error?.response?.data?.message);
     },
   });
   if (isPending || imageUploadLoading) {

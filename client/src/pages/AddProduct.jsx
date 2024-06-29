@@ -24,8 +24,14 @@ import { $axios } from "../axios/axiosInstance";
 import Loader from "../components/Loader";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   const [productImage, setProductImage] = useState(null);
@@ -37,8 +43,12 @@ const AddProduct = () => {
     mutationFn: async (values) => {
       return await $axios.post("/product/add", values);
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       navigate("/products");
+      dispatch(openSuccessSnackbar(res?.data?.message));
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
 

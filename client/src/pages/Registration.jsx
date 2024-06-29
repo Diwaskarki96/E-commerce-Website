@@ -20,10 +20,15 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const Registration = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, seterror] = useState(null);
   const navigate = useNavigate();
   const { isPending, mutate } = useMutation({
     mutationKey: ["Register-user"],
@@ -33,9 +38,11 @@ const Registration = () => {
     onSuccess: (res) => {
       console.log(res);
       navigate("/login");
+      dispatch(openSuccessSnackbar(res?.data?.message));
     },
     onError: (error) => {
-      seterror(error.response.data.msg);
+      console.log(error);
+      dispatch(openErrorSnackbar(error?.response?.data));
     },
   });
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -69,11 +76,6 @@ const Registration = () => {
         {({ touched, errors, getFieldProps, handleSubmit }) => {
           return (
             <div>
-              {error && (
-                <Alert sx={{ marginBottom: "1rem" }} severity="error">
-                  {error}
-                </Alert>
-              )}
               <form
                 onSubmit={handleSubmit}
                 style={{

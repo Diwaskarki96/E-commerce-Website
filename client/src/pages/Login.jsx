@@ -18,10 +18,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, seterror] = useState(null);
   const navigate = useNavigate();
 
   const { isPending, mutate } = useMutation({
@@ -31,7 +36,7 @@ const Login = () => {
     },
     onSuccess: (res) => {
       navigate("/home");
-
+      dispatch(openSuccessSnackbar(res?.data?.message));
       const firstName = res?.data?.userDetails?.firstName;
       const accessToken = res?.data?.token;
       const role = res?.data?.userDetails?.role;
@@ -41,7 +46,8 @@ const Login = () => {
       localStorage.setItem("role", role);
     },
     onError: (error) => {
-      seterror(error.response.data.msg);
+      console.log(error);
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -73,12 +79,6 @@ const Login = () => {
           {(formik) => {
             return (
               <div style={{}}>
-                {error && (
-                  <Alert sx={{ marginBottom: "2rem" }} severity="error">
-                    {error}
-                  </Alert>
-                )}
-
                 <form
                   onSubmit={formik.handleSubmit}
                   style={{
