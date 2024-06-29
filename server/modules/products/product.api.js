@@ -25,7 +25,7 @@ router.post("/add", isSeller, async (req, res, next) => {
     const loggedInUserId = req.loggedInUserId;
     newProduct.sellerId = loggedInUserId;
     const product = await productController.add(validateData);
-    res.json({ msg: "success", data: product });
+    res.json({ msg: "Product is added successfully", data: product });
   } catch (e) {
     next(e);
   }
@@ -60,7 +60,7 @@ router.delete(
       if (!isOwnerOfProduct)
         throw new Error("You are not the owner of this product");
       const deleteProduct = await productController.remove({ id: productId });
-      res.json({ msg: "success", data: deleteProduct });
+      res.json({ msg: "Product is deleted successfully", data: deleteProduct });
     } catch (e) {
       next(e);
     }
@@ -87,7 +87,7 @@ router.put("/edit/:id", isSeller, isValidMongoId, async (req, res, next) => {
       validateProduct,
       { new: true }
     );
-    res.json({ msg: "success", data: updateProduct });
+    res.json({ msg: "Product is edit successfully", data: updateProduct });
   } catch (e) {
     next(e);
   }

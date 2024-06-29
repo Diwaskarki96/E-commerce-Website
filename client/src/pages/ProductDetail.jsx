@@ -16,10 +16,16 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { fallBackImage } from "../constants/general.constants";
 import Loader from "../components/Loader";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 // Box => div
 // Stack => div which has display flex and direction column
 const ProductDetail = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
   const productId = params.id;
@@ -40,8 +46,13 @@ const ProductDetail = () => {
         orderQuantity: productCount,
       });
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries("gert-cart-item-count");
+      navigate("/cart");
+      dispatch(openSuccessSnackbar(res?.data.msg));
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error));
     },
   });
   const productDetail = data?.data?.data;

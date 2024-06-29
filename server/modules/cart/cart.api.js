@@ -36,7 +36,7 @@ router.post("/add", isBuyer, async (req, res, next) => {
       productId: cartData.productId,
       orderQuantity: cartData.orderQuantity,
     });
-    res.json({ msg: "success", data: createCart });
+    res.json({ msg: "Item is added to cart successfully", data: createCart });
   } catch (e) {
     next(e);
   }
@@ -46,7 +46,7 @@ router.delete("/clear", isBuyer, async (req, res, next) => {
   try {
     const loggedInUserId = req.loggedInUserId;
     const deleteCart = await cartModel.deleteMany({ buyerId: loggedInUserId });
-    res.json({ msg: "clear is working", data: deleteCart });
+    res.json({ msg: "Cart is deleted successfully", data: deleteCart });
   } catch (e) {
     next(e);
   }
@@ -68,7 +68,7 @@ router.delete(
         buyerId: req.loggedInUserId,
         productId: productId,
       });
-      res.json({ msg: "Success", deletedCart });
+      res.json({ msg: "Cart is deleted successfully", deletedCart });
     } catch (e) {
       next(e);
     }
@@ -131,7 +131,7 @@ router.put(
         },
         { orderQuantity: newOrderedQuantity }
       );
-      res.json({ msg: "success", data: incOrDecQuantity });
+      res.json({ msg: "Cart is edited successfully", data: incOrDecQuantity });
     } catch (e) {
       next(e);
     }

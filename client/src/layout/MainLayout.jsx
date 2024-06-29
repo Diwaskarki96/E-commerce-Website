@@ -3,11 +3,13 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Box } from "@mui/material";
+import CustomSnackBar from "../components/CustomSnackBar";
 
 const MainLayout = () => {
   return (
     <Box>
       <Header />
+      <CustomSnackBar />
       <Box
         sx={{
           display: "flex",

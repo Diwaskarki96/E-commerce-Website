@@ -2,33 +2,35 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { closeSnackbar } from "../store/slices/snackbarSlice";
 
 const CustomSnackBar = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const values = useSelector((state) => state.snackbar);
+  const dispatch = useDispatch();
+  console.log(values);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    dispatch(closeSnackbar());
   };
 
   return (
     <div>
-      <Button onClick={handleClick}>Open Snackbar</Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar
+        open={values.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
         <Alert
           onClose={handleClose}
-          severity="success"
+          severity={values.severity}
           variant="filled"
           sx={{ width: "100%" }}
         >
-          This is a success Alert inside a Snackbar!
+          {values.message}
         </Alert>
       </Snackbar>
     </div>

@@ -88,6 +88,7 @@ const EditProduct = () => {
                 data
               );
               imageUrl = response?.data?.secure_url;
+              values.image = imageUrl;
               setImageUploadLoading(false);
             } catch (error) {
               setImageUploadLoading(false);
@@ -95,7 +96,7 @@ const EditProduct = () => {
               console.log(error.message);
             }
           }
-          values.image = imageUrl;
+
           mutate(values);
         }}
       >
