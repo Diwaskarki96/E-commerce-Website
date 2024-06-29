@@ -10,9 +10,14 @@ router.post("/register", async (req, res, next) => {
     const existedUser = await userController.findByEmail({
       email: req.body.email,
     });
-    if (existedUser) throw new Error("User existed");
+    if (existedUser) {
+      return res.status(404).send("User existed");
+    }
     const user = await userController.register(validateData);
-    res.send({ msg: "User is registerd successfully", userDetails: user });
+    res.send({
+      message: "User is registerd successfully. Please log in.",
+      userDetails: user,
+    });
   } catch (e) {
     next(e);
   }
@@ -31,7 +36,7 @@ router.post("/login", async (req, res, next) => {
       }
     );
     res.send({
-      msg: "User is logged in successfully",
+      message: "User is logged in successfully",
       userDetails: user,
       token: token,
     });

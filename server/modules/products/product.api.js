@@ -12,7 +12,7 @@ const validateReqBody = require("../../middleware/reqBodyValidation");
 router.get("/all", async (req, res, next) => {
   try {
     const allProducts = await productController.all();
-    res.json({ msg: "success", data: allProducts });
+    res.json({ message: "success", data: allProducts });
   } catch (e) {
     next(e);
   }
@@ -25,7 +25,7 @@ router.post("/add", isSeller, async (req, res, next) => {
     const loggedInUserId = req.loggedInUserId;
     newProduct.sellerId = loggedInUserId;
     const product = await productController.add(validateData);
-    res.json({ msg: "Product is added successfully", data: product });
+    res.json({ message: "Product is added successfully", data: product });
   } catch (e) {
     next(e);
   }
@@ -36,7 +36,7 @@ router.get("/details/:id", isUser, isValidMongoId, async (req, res, next) => {
     const productId = req.params.id;
     const product = await productController.findId({ id: productId });
     if (!product) throw new Error("No Product Found");
-    res.json({ msg: "Success", data: product });
+    res.json({ message: "Success", data: product });
   } catch (e) {
     next(e);
   }
@@ -60,7 +60,10 @@ router.delete(
       if (!isOwnerOfProduct)
         throw new Error("You are not the owner of this product");
       const deleteProduct = await productController.remove({ id: productId });
-      res.json({ msg: "Product is deleted successfully", data: deleteProduct });
+      res.json({
+        message: "Product is deleted successfully",
+        data: deleteProduct,
+      });
     } catch (e) {
       next(e);
     }
@@ -87,7 +90,7 @@ router.put("/edit/:id", isSeller, isValidMongoId, async (req, res, next) => {
       validateProduct,
       { new: true }
     );
-    res.json({ msg: "Product is edit successfully", data: updateProduct });
+    res.json({ message: "Product is edit successfully", data: updateProduct });
   } catch (e) {
     next(e);
   }
@@ -126,7 +129,7 @@ router.post(
       ]);
       const totalProduct = await productModel.find(match).countDocuments();
       const totalPage = Math.ceil(totalProduct / limit);
-      res.json({ msg: "success", data: product, totalPage });
+      res.json({ message: "success", data: product, totalPage });
     } catch (e) {
       next(e);
     }
@@ -163,7 +166,7 @@ router.post(
         .find({ sellerId: req.loggedInUserId })
         .countDocuments();
       const totalPage = Math.ceil(totalProduct / limit);
-      res.json({ msg: "success", data: allProducts, totalPage });
+      res.json({ message: "success", data: allProducts, totalPage });
     } catch (e) {
       next(e);
     }

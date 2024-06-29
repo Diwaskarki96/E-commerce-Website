@@ -29,14 +29,23 @@ router.post("/add", isBuyer, async (req, res, next) => {
       buyerId: req.loggedInUserId,
       productId: cartData.productId,
     });
-    if (cartItem) throw new Error("This item already in your cart.");
+    // if (cartItem) throw new Error("This item already in your cart.");
+    if (cartItem) {
+      return res.status(409).send({
+        message:
+          "Item is already added to cart. Try updating quantity from cart.",
+      });
+    }
     // const createCart = await cartController.add(validateData);
     const createCart = await cartModel.create({
       buyerId: req.loggedInUserId,
       productId: cartData.productId,
       orderQuantity: cartData.orderQuantity,
     });
-    res.json({ msg: "Item is added to cart successfully", data: createCart });
+    res.json({
+      message: "Item is added to cart successfully",
+      data: createCart,
+    });
   } catch (e) {
     next(e);
   }
@@ -46,7 +55,7 @@ router.delete("/clear", isBuyer, async (req, res, next) => {
   try {
     const loggedInUserId = req.loggedInUserId;
     const deleteCart = await cartModel.deleteMany({ buyerId: loggedInUserId });
-    res.json({ msg: "Cart is deleted successfully", data: deleteCart });
+    res.json({ message: "Cart is deleted successfully", data: deleteCart });
   } catch (e) {
     next(e);
   }
@@ -62,13 +71,13 @@ router.delete(
       const productId = req.params.id;
       const product = await productController.findId({ id: productId });
       if (!product) {
-        return res.status(401).json({ msg: "Product does not exist" });
+        return res.status(401).json({ message: "Product does not exist" });
       }
       const deletedCart = await cartModel.deleteOne({
         buyerId: req.loggedInUserId,
         productId: productId,
       });
-      res.json({ msg: "Cart is deleted successfully", deletedCart });
+      res.json({ message: "Cart is deleted successfully", deletedCart });
     } catch (e) {
       next(e);
     }
@@ -102,7 +111,7 @@ router.put(
 
       //if not cart item, throw error
       if (!cartItem) {
-        return res.status(404).json({ msg: "Cart item does not Exists" });
+        return res.status(404).json({ message: "Cart item does not Exists" });
       }
       //previous ordered quantity from cart item
       let previousOrderedQuantity = cartItem.orderQuantity;
@@ -116,12 +125,14 @@ router.put(
       }
 
       if (newOrderedQuantity < 1) {
-        return res.status(403).json({ msg: "Order quantity cannot be zero" });
+        return res
+          .status(403)
+          .json({ message: "Order quantity cannot be zero" });
       }
       if (newOrderedQuantity > productAvailableQuantity) {
         return res
           .status(403)
-          .json({ msg: "Product reached available quantity" });
+          .json({ message: "Product reached available quantity" });
       }
       // update cart item with new ordered quantity
       const incOrDecQuantity = await cartModel.updateOne(
@@ -131,7 +142,10 @@ router.put(
         },
         { orderQuantity: newOrderedQuantity }
       );
-      res.json({ msg: "Cart is edited successfully", data: incOrDecQuantity });
+      res.json({
+        message: "Cart is edited successfully",
+        data: incOrDecQuantity,
+      });
     } catch (e) {
       next(e);
     }
@@ -207,7 +221,7 @@ router.get("/itemCount", isBuyer, async (req, res, next) => {
     const cartItemCount = await cartModel
       .find({ buyerId: loggedInUserId })
       .countDocuments();
-    return res.json({ msg: "success", cartItemCount });
+    return res.json({ message: "success", cartItemCount });
   } catch (e) {
     next(e);
   }
