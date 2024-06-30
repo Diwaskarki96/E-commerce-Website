@@ -117,7 +117,7 @@ router.post(
         {
           $project: {
             name: 1,
-            band: 1,
+            brand: 1,
             price: 1,
             category: 1,
             freeShipping: 1,
