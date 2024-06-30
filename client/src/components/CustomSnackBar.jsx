@@ -8,7 +8,6 @@ import { closeSnackbar } from "../store/slices/snackbarSlice";
 const CustomSnackBar = () => {
   const values = useSelector((state) => state.snackbar);
   const dispatch = useDispatch();
-  console.log(values);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -21,7 +20,7 @@ const CustomSnackBar = () => {
     <div>
       <Snackbar
         open={values.open}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleClose}
       >
         <Alert

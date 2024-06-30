@@ -36,7 +36,6 @@ const Registration = () => {
       return await $axios.post("/user/register", values);
     },
     onSuccess: (res) => {
-      console.log(res);
       navigate("/login");
       dispatch(openSuccessSnackbar(res?.data?.message));
     },

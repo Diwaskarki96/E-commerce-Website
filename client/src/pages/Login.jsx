@@ -47,7 +47,7 @@ const Login = () => {
     },
     onError: (error) => {
       console.log(error);
-      dispatch(openErrorSnackbar(error?.response?.data?.message));
+      dispatch(openErrorSnackbar(error?.response?.data.message));
     },
   });
   const handleClickShowPassword = () => setShowPassword((show) => !show);

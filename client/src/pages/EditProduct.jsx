@@ -25,8 +25,14 @@ import addProductValidationSchema from "../validationSchema/add.product.validati
 import { Formik } from "formik";
 import Loader from "../components/Loader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const EditProduct = () => {
+  const dispatch = useDispatch();
   const [productImage, setProductImage] = useState(null);
   const [localUrl, setLocalUrl] = useState("");
   const [imageUploadLoading, setImageUploadLoading] = useState(false);
@@ -47,11 +53,12 @@ const EditProduct = () => {
     mutationFn: async (values) => {
       return await $axios.put(`/product/edit/${productID}`, values);
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       navigate(`/product-detail/${productID}`);
+      dispatch(openSuccessSnackbar(res?.data?.message));
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
   if (isPending || imageUploadLoading) {
