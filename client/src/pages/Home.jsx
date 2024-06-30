@@ -40,13 +40,25 @@ export default function Home() {
           data-swiper-parallax="-23%"
         ></div>
         <SwiperSlide>
-          <div className="title" data-swiper-parallax="-300">
+          <div
+            className="title"
+            data-swiper-parallax="-300"
+            style={{ color: "black" }}
+          >
             Introducing the M3 Air Laptop
           </div>
-          <div className="subtitle" data-swiper-parallax="-200">
+          <div
+            className="subtitle"
+            data-swiper-parallax="-200"
+            style={{ color: "black" }}
+          >
             The Future of Portable Computing
           </div>
-          <div className="text" data-swiper-parallax="-100">
+          <div
+            className="text"
+            data-swiper-parallax="-100"
+            style={{ color: "black" }}
+          >
             <p>
               {`The M3 Air Laptop is a game-changer in the world of portable
               computing. With its sleek design, powerful performance, and
@@ -57,13 +69,25 @@ export default function Home() {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="title" data-swiper-parallax="-300">
+          <div
+            className="title"
+            data-swiper-parallax="-300"
+            style={{ color: "black" }}
+          >
             Unmatched Performance
           </div>
-          <div className="subtitle" data-swiper-parallax="-200">
+          <div
+            className="subtitle"
+            data-swiper-parallax="-200"
+            style={{ color: "black" }}
+          >
             Power at Your Fingertips
           </div>
-          <div className="text" data-swiper-parallax="-100">
+          <div
+            className="text"
+            data-swiper-parallax="-100"
+            style={{ color: "black" }}
+          >
             <p>
               {`The M3 Air Laptop's high-resolution display offers stunning
               visuals, while the advanced M3 processor ensures smooth
@@ -74,13 +98,25 @@ export default function Home() {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="title" data-swiper-parallax="-300">
+          <div
+            className="title"
+            data-swiper-parallax="-300"
+            style={{ color: "black" }}
+          >
             Long-lasting Battery Life
           </div>
-          <div className="subtitle" data-swiper-parallax="-200">
+          <div
+            className="subtitle"
+            data-swiper-parallax="-200"
+            style={{ color: "black" }}
+          >
             Stay Productive All Day
           </div>
-          <div className="text" data-swiper-parallax="-100">
+          <div
+            className="text"
+            data-swiper-parallax="-100"
+            style={{ color: "black" }}
+          >
             <p>
               {`The M3 Air Laptop boasts a long-lasting battery, so you can stay
               productive all day. Whether you're a student, a professional, or a
