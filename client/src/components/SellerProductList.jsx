@@ -22,6 +22,7 @@ const SellerProductList = () => {
   });
 
   const productList = data?.data?.data;
+
   const totalPage = data?.data?.totalPage;
   if (isPending) {
     return <Loader />;

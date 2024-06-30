@@ -14,7 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
 import Loader from "./Loader";
-import { AccountCircle } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const BuyerProductList = () => {
