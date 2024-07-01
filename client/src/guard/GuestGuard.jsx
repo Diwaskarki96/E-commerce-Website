@@ -5,7 +5,7 @@ const GuestGuard = (props) => {
   const isUserLoggedIn = localStorage.getItem("accessToken");
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isUserLoggedIn) {
+    if (isUserLoggedIn) {
       navigate("/home", { replace: "true" });
     }
   }, [isUserLoggedIn, navigate]);
