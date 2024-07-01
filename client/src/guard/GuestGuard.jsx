@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const GuestGuard = (props) => {
   const isUserLoggedIn = localStorage.getItem("accessToken");
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   useEffect(() => {
     if (isUserLoggedIn) {
       navigate("/home", { replace: "true" });
     }
-  }, [isUserLoggedIn, navigate]);
+    if (pathname === "/" && !isUserLoggedIn) {
+      navigate("/login", { replace: true });
+    }
+  }, [isUserLoggedIn, navigate, pathname]);
   return <div>{!isUserLoggedIn && props.children}</div>;
 };
 
