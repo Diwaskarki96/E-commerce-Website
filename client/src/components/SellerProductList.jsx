@@ -1,16 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Box, Button, Pagination } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  Pagination,
+} from "@mui/material";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
 import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
 import Loader from "../components/Loader";
-
+import SearchIcon from "@mui/icons-material/Search";
+import { debounce } from "lodash";
 const SellerProductList = () => {
   const navigate = useNavigate();
   const [currentPage, setcurrentPage] = useState(1);
-
   const { isPending, data } = useQuery({
     queryKey: ["get-seller-products", currentPage],
     queryFn: async () => {
@@ -24,6 +31,7 @@ const SellerProductList = () => {
   const productList = data?.data?.data;
 
   const totalPage = data?.data?.totalPage;
+
   if (isPending) {
     return <Loader />;
   }
@@ -61,7 +69,11 @@ const SellerProductList = () => {
               return <ProductCard key={item._id} {...item} />;
             })
           ) : (
-            <img src={fallBackImage} alt="" />
+            <img
+              style={{ height: "400px" }}
+              src="/image/productNotFound.png"
+              alt=""
+            />
           )}
         </Box>
         <Pagination

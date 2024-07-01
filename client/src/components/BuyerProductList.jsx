@@ -15,7 +15,7 @@ import { $axios } from "../axios/axiosInstance";
 import { fallBackImage } from "../constants/general.constants";
 import Loader from "./Loader";
 import SearchIcon from "@mui/icons-material/Search";
-
+import { debounce } from "lodash";
 const BuyerProductList = () => {
   const [currentPage, setcurrentPage] = useState(1);
   const [searchText, setsearchText] = useState("");
@@ -32,6 +32,13 @@ const BuyerProductList = () => {
 
   const productDetail = data?.data?.data;
   const totalPage = data?.data?.totalPage;
+
+  const updateSearchText = (text) => {
+    setsearchText(text);
+    setcurrentPage(1);
+  };
+
+  const delayedUpdateSearchText = debounce(updateSearchText, 1000);
   if (isPending) {
     return <Loader />;
   }
@@ -45,9 +52,9 @@ const BuyerProductList = () => {
               <SearchIcon sx={{ fontSize: "2rem" }} />
             </InputAdornment>
           }
+          defaultValue={searchText || ""}
           onChange={(event) => {
-            setsearchText(event.target.value);
-            setcurrentPage(1);
+            delayedUpdateSearchText(event.target.value);
           }}
         />
       </FormControl>
@@ -66,7 +73,11 @@ const BuyerProductList = () => {
             return <ProductCard key={item._id} {...item} />;
           })
         ) : (
-          <img src={fallBackImage} alt="" />
+          <img
+            style={{ height: "400px" }}
+            src="/image/productNotFound.png"
+            alt=""
+          />
         )}
       </Box>
       <Pagination
