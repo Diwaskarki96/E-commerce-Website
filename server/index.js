@@ -21,7 +21,7 @@ app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.get("/", (req, res) => {
-  res.json({ data: "", msg: "Api is working" });
+  res.json({ msg: "Api is working" });
 });
 app.use(errorHandler);
 app.listen(PORT, () => {
