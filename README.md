@@ -60,6 +60,9 @@ This project is a MERN stack-based e-commerce platform, including features for u
    ```
 
 2. The server will be running at `http://localhost:5000` and the client at `http://localhost:5173`.
+3. **Test Accounts:**
+   - **Seller Account:** Use email: `test@seller` and password: `1234`
+   - **Buyer Account:** Use email: `test@buyer` and password: `1234`
 
 ## API Endpoints
 
