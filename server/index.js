@@ -23,7 +23,7 @@ app.use("/cart", cartRouter);
 app.get("/", (req, res) => {
   res.json({ data: "", msg: "Api is working" });
 });
-
+app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
