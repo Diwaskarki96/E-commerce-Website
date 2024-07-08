@@ -39,7 +39,8 @@ This project is a MERN stack-based e-commerce platform, including features for u
    npm install
    cd client
    npm install
-   cd ..
+   cd server
+   npm install
    ```
 4. Set up environment variables in a `.env` file for both the server and client.
    ```env
@@ -58,7 +59,7 @@ This project is a MERN stack-based e-commerce platform, including features for u
    npm run dev
    ```
 
-2. The server will be running at `http://localhost:5000` and the client at `http://localhost:3000`.
+2. The server will be running at `http://localhost:5000` and the client at `http://localhost:5173`.
 
 ## API Endpoints
 
